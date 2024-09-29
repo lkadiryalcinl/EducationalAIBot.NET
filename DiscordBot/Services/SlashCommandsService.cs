@@ -1,4 +1,6 @@
 ﻿using System.Net.NetworkInformation;
+using System.Security.Cryptography;
+using System.Text;
 using DiscordBot.Interfaces;
 using DiscordBot.Wrapper;
 using DSharpPlus;
@@ -28,13 +30,20 @@ namespace DiscordBot.Services
 
         public async Task ChatGeminiSlashCommandAsync(IInteractionContextWrapper ctx, string text)
         {
+            string filePath = "C:\\Users\\ASUS\\Desktop\\Veri_Madenciligi\\vm_2022finalcevap_pages-to-jpg-0001.jpg";
+            
             await SendInitialResponseAsync(ctx, $"{ctx.User.Mention} tarafından gelen istek: {text}");
 
-            var googleAI = new GoogleAI(_geminiApiKey);
-            var model = googleAI.GenerativeModel(model: Model.Gemini15ProLatest);
-            var response = await model.GenerateContent(text);
+            GoogleAI googleAI = new(_geminiApiKey);
 
-            var embedMessage = CreateEmbedMessage("Öğretici Yapay Zeka Botu", response.Text, ctx.User);
+            GenerativeModel model = googleAI.GenerativeModel(model: Model.Gemini15ProLatest);
+
+            GenerateContentRequest request = new(text);
+            await request.AddMedia(filePath);
+
+            GenerateContentResponse response = await model.GenerateContent(request);
+
+            DiscordEmbedBuilder embedMessage = CreateEmbedMessage("Öğretici Yapay Zeka Botu", response.Text, ctx.User);
 
             await ctx.Channel.SendMessageAsync(embedMessage);
             await FinalizeResponseAsync(ctx, nameof(ChatGeminiSlashCommandAsync), text);
@@ -84,5 +93,8 @@ namespace DiscordBot.Services
 
             Program.Log(logMessage);
         }
+
     }
+
+
 }
