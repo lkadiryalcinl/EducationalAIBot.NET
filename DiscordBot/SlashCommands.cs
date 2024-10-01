@@ -21,7 +21,7 @@ namespace DiscordBot
         string text)
         {
             InteractionContextWrapper context = new(ctx);
-            await slashCommandsService.ChatGeminiSlashCommandAsync(context, text);
+            await slashCommandsService.LearnSlashCommandAsync(context, text);
         }
     }
 

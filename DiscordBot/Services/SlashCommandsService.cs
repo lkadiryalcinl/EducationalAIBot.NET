@@ -1,6 +1,4 @@
 ﻿using System.Net.NetworkInformation;
-using System.Security.Cryptography;
-using System.Text;
 using DiscordBot.Interfaces;
 using DiscordBot.Wrapper;
 using DSharpPlus;
@@ -28,25 +26,43 @@ namespace DiscordBot.Services
             await FinalizeResponseAsync(ctx, nameof(PingSlashCommandAsync));
         }
 
-        public async Task ChatGeminiSlashCommandAsync(IInteractionContextWrapper ctx, string text)
+        public async Task LearnSlashCommandAsync(IInteractionContextWrapper ctx, string text)
         {
-            string filePath = "C:\\Users\\ASUS\\Desktop\\Veri_Madenciligi\\vm_2022finalcevap_pages-to-jpg-0001.jpg";
-            
+            string filePath = "C:\\Users\\ASUS\\Desktop\\Veri_Madenciligi\\veri.pdf";
+
+            string FileText = FileReaderClient.ProcessFile(filePath);
+
             await SendInitialResponseAsync(ctx, $"{ctx.User.Mention} tarafından gelen istek: {text}");
+            DiscordEmbedBuilder embedMessage = await AIProccess(ctx, text, FileText);
+
+            await ctx.Channel.SendMessageAsync(embedMessage);
+            await FinalizeResponseAsync(ctx, nameof(LearnSlashCommandAsync), text);
+        }
+
+        private async Task<DiscordEmbedBuilder> AIProccess(IInteractionContextWrapper ctx, string text, string fileText)
+        {
+            var systemPrompt = new Content(
+            $"""
+                You are an edicational AI who will answer to the juniour year collage students.
+                You will answer which launguage will students ask to you. 
+                Additionally you will answer the questions just on that i will provide the text.
+                If the answer is not inside of the text you can answer like the answer is not inside of the file and of course you will answer the error message which laungage the conversation is.
+                The provided text : {fileText}
+            """
+            );
 
             GoogleAI googleAI = new(_geminiApiKey);
 
-            GenerativeModel model = googleAI.GenerativeModel(model: Model.Gemini15ProLatest);
+            GenerativeModel model = googleAI.GenerativeModel(
+                model: Model.Gemini15ProLatest,
+                systemInstruction: systemPrompt);
 
             GenerateContentRequest request = new(text);
-            await request.AddMedia(filePath);
 
             GenerateContentResponse response = await model.GenerateContent(request);
 
             DiscordEmbedBuilder embedMessage = CreateEmbedMessage("Öğretici Yapay Zeka Botu", response.Text, ctx.User);
-
-            await ctx.Channel.SendMessageAsync(embedMessage);
-            await FinalizeResponseAsync(ctx, nameof(ChatGeminiSlashCommandAsync), text);
+            return embedMessage;
         }
 
         // Yardımcı Metotlar

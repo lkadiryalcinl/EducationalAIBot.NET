@@ -5,6 +5,6 @@ namespace DiscordBot.Interfaces
     public interface ISlashCommandsService
     {
         Task PingSlashCommandAsync(IInteractionContextWrapper context);
-        Task ChatGeminiSlashCommandAsync(IInteractionContextWrapper context, string text);
+        Task LearnSlashCommandAsync(IInteractionContextWrapper context, string text);
     }
 }
