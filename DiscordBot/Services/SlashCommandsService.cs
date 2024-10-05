@@ -1,5 +1,6 @@
 ﻿using System.Net.NetworkInformation;
 using DiscordBot.Interfaces;
+using DiscordBot.Models;
 using DiscordBot.Wrapper;
 using DSharpPlus;
 using DSharpPlus.Entities;
@@ -30,7 +31,7 @@ namespace DiscordBot.Services
         {
             string filePath = "C:\\Users\\ASUS\\Desktop\\Veri_Madenciligi\\veri.pdf";
 
-            string FileText = FileReaderClient.ProcessFile(filePath);
+            List<FileContentModel> FileText = FileReaderClient.ProcessFile(filePath);
 
             await SendInitialResponseAsync(ctx, $"{ctx.User.Mention} tarafından gelen istek: {text}");
             DiscordEmbedBuilder embedMessage = await AIProccess(ctx, text, FileText);
@@ -39,7 +40,8 @@ namespace DiscordBot.Services
             await FinalizeResponseAsync(ctx, nameof(LearnSlashCommandAsync), text);
         }
 
-        private async Task<DiscordEmbedBuilder> AIProccess(IInteractionContextWrapper ctx, string text, string fileText)
+        // Yardımcı Metotlar
+        private async Task<DiscordEmbedBuilder> AIProccess(IInteractionContextWrapper ctx, string text, List<FileContentModel> fileText)
         {
             var systemPrompt = new Content(
             $"""
@@ -47,7 +49,10 @@ namespace DiscordBot.Services
                 You will answer which launguage will students ask to you. 
                 Additionally you will answer the questions just on that i will provide the text.
                 If the answer is not inside of the text you can answer like the answer is not inside of the file and of course you will answer the error message which laungage the conversation is.
-                The provided text : {fileText}
+                First of all you need the read text in foreach because its a list
+                The structure of text is and has 2 parameter first one is Content and second one is PageNumber 
+                when you answer the question you also have to give number of page where did you find the data
+                The provided list : {fileText.ToList()}
             """
             );
 
@@ -62,10 +67,10 @@ namespace DiscordBot.Services
             GenerateContentResponse response = await model.GenerateContent(request);
 
             DiscordEmbedBuilder embedMessage = CreateEmbedMessage("Öğretici Yapay Zeka Botu", response.Text, ctx.User);
+
             return embedMessage;
         }
 
-        // Yardımcı Metotlar
         private static async Task SendInitialResponseAsync(IInteractionContextWrapper ctx, string message)
         {
             await ctx.Channel.SendMessageAsync(message);

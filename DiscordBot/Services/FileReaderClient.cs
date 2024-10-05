@@ -1,8 +1,10 @@
-﻿namespace DiscordBot.Services
+﻿using DiscordBot.Models;
+
+namespace DiscordBot.Services
 {
     public static class FileReaderClient
     {
-        public static string ProcessFile(string filePath)
+        public static List<FileContentModel> ProcessFile(string filePath)
         {
             try
             {
@@ -10,7 +12,7 @@
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                return [new FileContentModel() { Content = ex.ToString(), PageNumber = ex.Data.Count}];
             }
         }
     }

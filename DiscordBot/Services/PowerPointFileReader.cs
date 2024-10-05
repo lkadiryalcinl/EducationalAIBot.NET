@@ -1,4 +1,5 @@
 ﻿using DiscordBot.Interfaces;
+using DiscordBot.Models;
 using DocumentFormat.OpenXml.Packaging;
 using System.Text;
 
@@ -6,23 +7,27 @@ namespace DiscordBot.Services
 {
     public class PowerPointFileReader : IAnyFileReader
     {
-        public string ReadFile(string filePath)
+        public List<FileContentModel> ReadFile(string filePath)
         {
-            StringBuilder allText = new();
+            FileOutputModel model = new();
+            int pageNumber = 1;
+
             using (PresentationDocument presentation = PresentationDocument.Open(filePath, false))
             {
                 var slideParts = presentation?.PresentationPart.SlideParts;
 
                 foreach (var slidePart in slideParts)
                 {
+                    
                     var textElements = slidePart.Slide.Descendants<DocumentFormat.OpenXml.Drawing.Text>();
                     foreach (var text in textElements)
                     {
-                        allText.AppendLine(text.Text);
+                        model.Contents.Add(new FileContentModel { Content = text.Text, PageNumber = pageNumber });
                     }
+                    pageNumber++;
                 }
             }
-            return allText.ToString();
+            return model.Contents;
         }
     }
 }

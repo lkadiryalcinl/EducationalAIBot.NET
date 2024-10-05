@@ -1,7 +1,9 @@
-﻿namespace DiscordBot.Interfaces
+﻿using DiscordBot.Models;
+
+namespace DiscordBot.Interfaces
 {
     public interface IAnyFileReader
     {
-        string ReadFile(string filePath);
+        List<FileContentModel> ReadFile(string filePath);
     }
 }

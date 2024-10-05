@@ -1,15 +1,15 @@
 ﻿using DiscordBot.Interfaces;
+using DiscordBot.Models;
 using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas.Parser;
-using System.Text;
 
 namespace DiscordBot.Services
 {
     public class PdfFileReader : IAnyFileReader
     {
-        public string ReadFile(string filePath)
+        public List<FileContentModel> ReadFile(string filePath)
         {
-            StringBuilder text = new();
+            FileOutputModel model = new();
 
             using (var pdfReader = new PdfReader(filePath))
             using (var pdfDocument = new PdfDocument(pdfReader))
@@ -18,11 +18,11 @@ namespace DiscordBot.Services
                 {
                     var page = pdfDocument.GetPage(i);
                     var pageText = PdfTextExtractor.GetTextFromPage(page);
-                    text.Append(pageText);
+                    model.Contents.Add(new FileContentModel { Content = pageText, PageNumber = i});
                 }
             }
 
-            return text.ToString();
+            return model.Contents;
         }
     }
 }

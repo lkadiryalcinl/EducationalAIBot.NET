@@ -1,27 +1,29 @@
 ﻿using ClosedXML.Excel;
 using DiscordBot.Interfaces;
-using System.Text;
+using DiscordBot.Models;
 
 namespace DiscordBot.Services
 {
     public class ExcelFileReader : IAnyFileReader
     {
-        public string ReadFile(string filePath)
+        public List<FileContentModel> ReadFile(string filePath)
         {
             using var workbook = new XLWorkbook(filePath);
             var worksheet = workbook.Worksheet(1);
-            StringBuilder text = new();
+            FileOutputModel model = new();
+            int pageNumber = 1;
 
             foreach (var row in worksheet.RowsUsed())
             {
                 foreach (var cell in row.CellsUsed())
                 {
-                    text.Append(cell.GetValue<string>() + " ");
+                    model.Contents.Add(new FileContentModel { Content = cell.GetValue<string>() + " ", PageNumber = pageNumber });
+                    
                 }
-                text.AppendLine();
+                pageNumber++;
             }
 
-            return text.ToString();
+            return model.Contents;
         }
     }
 }
