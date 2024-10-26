@@ -2,18 +2,11 @@
 
 	<PropertyGroup>
 		<PackageId>DiscordBotAI</PackageId>
-		<Description>
-			Starter Discord Bot using DSharp and having basic features like an Open AI connection
-		</Description>
-		<Authors>omgitsjan</Authors>
-		<RepositoryUrl>https://github.com/omgitsjan/DiscordBotAI</RepositoryUrl>
 		<OutputType>Exe</OutputType>
 		<TargetFramework>net8.0</TargetFramework>
 		<RootNamespace>DiscordBot</RootNamespace>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
-		<PackageLicenseFile>README.md</PackageLicenseFile>
 		<UserSecretsId>096c0e02-9bdc-41f2-9b09-d83effc29096</UserSecretsId>
 	</PropertyGroup>
 
