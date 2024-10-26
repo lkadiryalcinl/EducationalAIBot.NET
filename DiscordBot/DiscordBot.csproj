@@ -14,6 +14,7 @@
 		<Nullable>enable</Nullable>
 		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<PackageLicenseFile>README.md</PackageLicenseFile>
+		<UserSecretsId>096c0e02-9bdc-41f2-9b09-d83effc29096</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -29,6 +30,7 @@
 		<PackageReference Include="itext7" Version="8.0.5" />
 		<PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.1" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.0" />
 		<PackageReference Include="Mscc.GenerativeAI" Version="1.6.3" />

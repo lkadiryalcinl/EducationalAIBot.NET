@@ -66,8 +66,8 @@ namespace DiscordBot
 
         private static IConfigurationRoot LoadConfiguration() =>
             new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json")
+                .SetBasePath("C:\\Users\\ASUS\\AppData\\Roaming\\Microsoft\\UserSecrets\\096c0e02-9bdc-41f2-9b09-d83effc29096")
+                .AddJsonFile("secrets.json")
                 .Build();
 
         private static ServiceProvider ConfigureServices(IConfiguration configuration) =>

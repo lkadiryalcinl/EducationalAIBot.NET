@@ -1,4 +1,5 @@
 ﻿using System.Net.NetworkInformation;
+using System.Text;
 using DiscordBot.Interfaces;
 using DiscordBot.Models;
 using DiscordBot.Wrapper;
@@ -6,14 +7,20 @@ using DSharpPlus;
 using DSharpPlus.Entities;
 using Microsoft.Extensions.Configuration;
 using Mscc.GenerativeAI;
+using Newtonsoft.Json;
 
 namespace DiscordBot.Services
 {
     public class SlashCommandsService : ISlashCommandsService
     {
         private readonly string? _geminiApiKey;
+        private readonly string? _systemPrompt;
 
-        public SlashCommandsService(IConfiguration configuration) => _geminiApiKey = configuration["Gemini:ApiKey"];
+        public SlashCommandsService(IConfiguration configuration)
+        {
+            _geminiApiKey = configuration["Gemini:ApiKey"];
+            _systemPrompt = configuration["SystemPrompt:Text"];
+        }
 
         public async Task PingSlashCommandAsync(IInteractionContextWrapper ctx)
         {
@@ -43,16 +50,19 @@ namespace DiscordBot.Services
         // Yardımcı Metotlar
         private async Task<DiscordEmbedBuilder> AIProccess(IInteractionContextWrapper ctx, string text, List<FileContentModel> fileText)
         {
+            var serializedTextBuilder = new StringBuilder();
+
+            foreach (var page in fileText)
+            {
+                serializedTextBuilder.AppendLine($"Page Number: {page.PageNumber} |");
+                serializedTextBuilder.AppendLine($"Page Content: {page.Content} ||");
+            }
+
+            string SerializedText = serializedTextBuilder.ToString();
+
             var systemPrompt = new Content(
             $"""
-                You are an edicational AI who will answer to the juniour year collage students.
-                You will answer which launguage will students ask to you. 
-                Additionally you will answer the questions just on that i will provide the text.
-                If the answer is not inside of the text you can answer like the answer is not inside of the file and of course you will answer the error message which laungage the conversation is.
-                First of all you need the read text in foreach because its a list
-                The structure of text is and has 2 parameter first one is Content and second one is PageNumber 
-                when you answer the question you also have to give number of page where did you find the data
-                The provided list : {fileText.ToList()}
+                 {_systemPrompt}: {SerializedText}
             """
             );
 
