@@ -30,10 +30,6 @@ Bu aşamada, Discord botunun temel yapısı oluşturulacak ve bot, belirli bir s
 - **Sabit metin ile eğitim sağlandı:** İlk aşamada, botun belirli bir metin üzerinden sorulara cevap verebilmesi için sabit bir içerikle eğitildi.
 - **Kullanıcıdan gelen sorulara cevap verme mekanizması:** Kullanıcılar bot ile etkileşime geçerek, sabit metin üzerinden yanıtlar alabildiler.
 
-### 3.4 Karşılaşılan Zorluklar
-- API entegrasyonunda yaşanan bazı bağlantı sorunları giderildi.
-- Botun sabit metin üzerinde çalışması başarıyla tamamlandı; ancak daha dinamik bir öğrenme süreci için dosya okuma entegrasyonu gerektiği tespit edildi.
-
 ---
 
 ## 4. Güz Dönemi Final
@@ -50,11 +46,6 @@ Bu aşamada, botun sadece sabit bir metin yerine, bir dosya üzerinden öğrenme
 ### 4.3 Gerçekleştirilen Çalışmalar
 - **Dosya okuma fonksiyonu geliştirildi:** Kullanıcıların bot ile dosya yükleyerek botu eğitmesi sağlandı.
 - **Pinecone entegrasyonu başlatıldı:** Dosya içeriklerinin vektörel verilere çevrilip Pinecone ile saklanması ve eğitilmesi üzerine çalışmalar yapıldı.
-
-### 4.4 Karşılaşılan Zorluklar
-- Dosya formatlarının okunması sırasında bazı farklılıklar yaşandı. Ancak çeşitli dosya formatları desteklenecek şekilde yapı geliştirildi.
-- Pinecone ile veri saklama ve yönetimi süreçleri tam olarak entegrasyon aşamasında kaldı; ilerleyen dönemlerde bu entegrasyonun tamamlanması planlandı.
-
 ---
 
 ## 5. Bahar Dönemi
@@ -76,10 +67,6 @@ Bahar döneminde botun mimarisi mikroservis altyapısına geçirilecek ve farkl�
 4. **Redis entegrasyonu**: Veri paylaşımı ve önbellekleme için Redis kullanıldı, performans artırıldı.
 5. **YARP ile reverse proxy**: Servisler arası trafik yönetimi ve yük dengelemesi sağlandı.
 6. **Docker ile containerize yapı**: Her bir mikroservis, Docker container'ları içinde bağımsız çalışacak şekilde yapılandırıldı.
-
-### 5.4 Karşılaşılan Zorluklar
-- MassTransit mesaj kuyruğu yönetimi sırasında mesaj kayıpları yaşandı; ancak bu sorunlar giderildi.
-- IdentityServer4 ile her mikroservisin yetki seviyeleri ve kullanıcı doğrulaması üzerine çalışmalar yapıldı.
 
 ---
 
