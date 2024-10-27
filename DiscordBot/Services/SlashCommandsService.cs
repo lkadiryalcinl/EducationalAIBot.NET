@@ -3,29 +3,24 @@ using System.Text;
 using DSharpPlus;
 using DSharpPlus.Entities;
 using EducationalAIBot.Interfaces;
-using EducationalAIBot.Models;
 using EducationalAIBot.Wrapper;
 using Microsoft.Extensions.Configuration;
-using Mscc.GenerativeAI;
+using RestSharp;
 
 namespace EducationalAIBot.Services
 {
-    public class SlashCommandsService : ISlashCommandsService
+    public class SlashCommandsService(IConfiguration configuration, IHttpService httpService) : ISlashCommandsService
     {
-        private readonly string? _geminiApiKey;
-        private readonly string? _systemPrompt;
-
-        public SlashCommandsService(IConfiguration configuration)
-        {
-            _geminiApiKey = configuration["Gemini:ApiKey"];
-            _systemPrompt = configuration["SystemPrompt:Text"];
-        }
+        private readonly string? _botApiUrl = configuration["BotAPI:Url"];
+        private readonly IHttpService _httpService = httpService;
 
         public async Task PingSlashCommandAsync(IInteractionContextWrapper ctx)
         {
             await SendInitialResponseAsync(ctx, "Ping...");
 
-            var latency = GetPingLatency("google.com");
+            using Ping pinger = new();
+            PingReply reply = pinger.Send("google.com");
+            var latency = reply.RoundtripTime;
 
             var embedMessage = CreateEmbedMessage("Pong!", $"Gecikme: {latency} ms", ctx.User);
 
@@ -37,61 +32,34 @@ namespace EducationalAIBot.Services
         {
             string filePath = "C:\\Users\\ASUS\\Desktop\\Veri_Madenciligi\\veri.pdf";
 
-            List<FileContentModel> FileText = FileReaderClient.ProcessFile(filePath);
+            var FileContents = await _httpService.GetResponseFromUrl($"{_botApiUrl}/FileReader/ReadFileFromFilePath?filepath={filePath}");
 
             await SendInitialResponseAsync(ctx, $"{ctx.User.Mention} tarafından gelen istek: {text}");
-            DiscordEmbedBuilder embedMessage = await AIProccess(ctx, text, FileText);
+
+            var encodedFileContents = Convert.ToBase64String(Encoding.UTF8.GetBytes(FileContents.Content));
+
+            var response = await _httpService.GetResponseFromUrl(
+                resource: $"{_botApiUrl}/AI/GetResult",
+                method: Method.Post,
+                jsonBody: new
+                {
+                    req = text,
+                    fileContents = encodedFileContents
+                }
+            );
+
+            DiscordEmbedBuilder embedMessage = CreateEmbedMessage("Öğretici Yapay Zeka Botu", response.Content, ctx.User);
 
             await ctx.Channel.SendMessageAsync(embedMessage);
             await FinalizeResponseAsync(ctx, nameof(LearnSlashCommandAsync), text);
         }
 
         // Yardımcı Metotlar
-        private async Task<DiscordEmbedBuilder> AIProccess(IInteractionContextWrapper ctx, string text, List<FileContentModel> fileText)
-        {
-            var serializedTextBuilder = new StringBuilder();
-
-            foreach (var page in fileText)
-            {
-                serializedTextBuilder.AppendLine($"Page Number: {page.PageNumber} |");
-                serializedTextBuilder.AppendLine($"Page Content: {page.Content} ||");
-            }
-
-            string SerializedText = serializedTextBuilder.ToString();
-
-            var systemPrompt = new Content(
-            $"""
-                 {_systemPrompt}: {SerializedText}
-            """
-            );
-
-            GoogleAI googleAI = new(_geminiApiKey);
-
-            GenerativeModel model = googleAI.GenerativeModel(
-                model: Model.Gemini15ProLatest,
-                systemInstruction: systemPrompt);
-
-            GenerateContentRequest request = new(text);
-
-            GenerateContentResponse response = await model.GenerateContent(request);
-
-            DiscordEmbedBuilder embedMessage = CreateEmbedMessage("Öğretici Yapay Zeka Botu", response.Text, ctx.User);
-
-            return embedMessage;
-        }
-
         private static async Task SendInitialResponseAsync(IInteractionContextWrapper ctx, string message)
         {
             await ctx.Channel.SendMessageAsync(message);
             await ctx.CreateResponseAsync(InteractionResponseType.DeferredChannelMessageWithSource,
                 new DiscordInteractionResponseBuilder().WithContent("Cevap üretiliyor..."));
-        }
-
-        private static long GetPingLatency(string host)
-        {
-            using Ping pinger = new();
-            PingReply reply = pinger.Send(host);
-            return reply.RoundtripTime;
         }
 
         private static DiscordEmbedBuilder CreateEmbedMessage(string title, string description, DiscordUser user)

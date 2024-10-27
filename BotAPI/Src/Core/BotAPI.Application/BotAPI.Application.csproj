@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.10.0" />
+		<PackageReference Include="MediatR" Version="12.4.1" />
+		<PackageReference Include="Mscc.GenerativeAI" Version="1.7.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\BotAPI.Domain\BotAPI.Domain.csproj" />
+	</ItemGroup>
+
+</Project>
