@@ -1,7 +1,7 @@
 ﻿using DSharpPlus;
 using DSharpPlus.Entities;
 
-namespace DiscordBot.Wrapper
+namespace EducationalAIBot.Wrapper
 {
     public interface IInteractionContextWrapper
     {

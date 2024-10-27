@@ -1,6 +1,6 @@
-﻿using DiscordBot.Models;
+﻿using EducationalAIBot.Models;
 
-namespace DiscordBot.Interfaces
+namespace EducationalAIBot.Interfaces
 {
     public interface IAnyFileReader
     {

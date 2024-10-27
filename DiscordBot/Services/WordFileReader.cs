@@ -1,9 +1,9 @@
-﻿using DiscordBot.Interfaces;
-using DiscordBot.Models;
-using DocumentFormat.OpenXml.Packaging;
+﻿using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
+using EducationalAIBot.Interfaces;
+using EducationalAIBot.Models;
 
-namespace DiscordBot.Services
+namespace EducationalAIBot.Services
 {
     public class WordFileReader : IAnyFileReader
     {
@@ -16,17 +16,17 @@ namespace DiscordBot.Services
 
             int pageNumber = 1;
 
-            foreach (var paragraph in body.Elements<DocumentFormat.OpenXml.Wordprocessing.Paragraph>())
+            foreach (var paragraph in body.Elements<Paragraph>())
             {
-                
+
                 model.Contents.Add(new FileContentModel
                 {
                     Content = paragraph.InnerText,
                     PageNumber = pageNumber
                 });
 
-                
-                 if (IsPageBreak(paragraph)) 
+
+                if (IsPageBreak(paragraph))
                 {
                     pageNumber++;
                 }
@@ -42,10 +42,10 @@ namespace DiscordBot.Services
                 var breakElement = run.Elements<Break>().FirstOrDefault();
                 if (breakElement != null && breakElement.Type == BreakValues.Page)
                 {
-                    return true; 
+                    return true;
                 }
             }
-            return false; 
+            return false;
         }
     }
 }

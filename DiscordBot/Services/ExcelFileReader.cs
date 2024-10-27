@@ -1,8 +1,8 @@
 ﻿using ClosedXML.Excel;
-using DiscordBot.Interfaces;
-using DiscordBot.Models;
+using EducationalAIBot.Interfaces;
+using EducationalAIBot.Models;
 
-namespace DiscordBot.Services
+namespace EducationalAIBot.Services
 {
     public class ExcelFileReader : IAnyFileReader
     {
@@ -18,7 +18,7 @@ namespace DiscordBot.Services
                 foreach (var cell in row.CellsUsed())
                 {
                     model.Contents.Add(new FileContentModel { Content = cell.GetValue<string>() + " ", PageNumber = pageNumber });
-                    
+
                 }
                 pageNumber++;
             }

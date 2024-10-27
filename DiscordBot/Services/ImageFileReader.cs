@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Mscc.GenerativeAI;
 
-namespace DiscordBot.Services
+namespace EducationalAIBot.Services
 {
     public static class ImageFileReader
     {
@@ -23,8 +23,8 @@ namespace DiscordBot.Services
                 model: Model.GeminiProVisionLatest);
 
             GenerateContentRequest request = new(prompt);
-            
-            await request.AddMedia(uri: filePath,mimeType: "application/pdf");
+
+            await request.AddMedia(uri: filePath, mimeType: "application/pdf");
 
             GenerateContentResponse response = await model.GenerateContent(request);
 

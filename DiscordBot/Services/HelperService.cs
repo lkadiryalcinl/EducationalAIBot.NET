@@ -1,8 +1,8 @@
-﻿using DiscordBot.Interfaces;
+﻿using EducationalAIBot.Interfaces;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 
-namespace DiscordBot.Services
+namespace EducationalAIBot.Services
 {
     public class HelperService : IHelperService
     {

@@ -1,6 +1,6 @@
-﻿using DiscordBot.Wrapper;
+﻿using EducationalAIBot.Wrapper;
 
-namespace DiscordBot.Interfaces
+namespace EducationalAIBot.Interfaces
 {
     public interface ISlashCommandsService
     {

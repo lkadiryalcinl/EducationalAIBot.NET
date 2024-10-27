@@ -1,9 +1,9 @@
-﻿using DiscordBot.Interfaces;
-using DiscordBot.Models;
-using DocumentFormat.OpenXml.Packaging;
+﻿using DocumentFormat.OpenXml.Packaging;
+using EducationalAIBot.Interfaces;
+using EducationalAIBot.Models;
 using System.Text;
 
-namespace DiscordBot.Services
+namespace EducationalAIBot.Services
 {
     public class PowerPointFileReader : IAnyFileReader
     {
@@ -18,7 +18,7 @@ namespace DiscordBot.Services
 
                 foreach (var slidePart in slideParts)
                 {
-                    
+
                     var textElements = slidePart.Slide.Descendants<DocumentFormat.OpenXml.Drawing.Text>();
                     foreach (var text in textElements)
                     {

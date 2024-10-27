@@ -1,7 +1,7 @@
-﻿using DiscordBot.Services;
+﻿using EducationalAIBot.Services;
 using RestSharp;
 
-namespace DiscordBot.Interfaces
+namespace EducationalAIBot.Interfaces
 {
     public interface IHttpService
     {

@@ -1,6 +1,6 @@
-﻿using DiscordBot.Interfaces;
+﻿using EducationalAIBot.Interfaces;
 
-namespace DiscordBot.Services
+namespace EducationalAIBot.Services
 {
     public class AnyFileReaderFactory
     {

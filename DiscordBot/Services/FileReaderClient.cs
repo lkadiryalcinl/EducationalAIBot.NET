@@ -1,6 +1,6 @@
-﻿using DiscordBot.Models;
+﻿using EducationalAIBot.Models;
 
-namespace DiscordBot.Services
+namespace EducationalAIBot.Services
 {
     public static class FileReaderClient
     {
@@ -12,7 +12,7 @@ namespace DiscordBot.Services
             }
             catch (Exception ex)
             {
-                return [new FileContentModel() { Content = ex.ToString(), PageNumber = ex.Data.Count}];
+                return [new FileContentModel() { Content = ex.ToString(), PageNumber = ex.Data.Count }];
             }
         }
     }

@@ -1,12 +1,12 @@
 ﻿using System.Diagnostics;
-using DiscordBot.Interfaces;
-using DiscordBot.Services;
-using DiscordBot.Wrapper;
 using DSharpPlus;
 using DSharpPlus.Entities;
 using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.Extensions;
 using DSharpPlus.SlashCommands;
+using EducationalAIBot.Interfaces;
+using EducationalAIBot.Services;
+using EducationalAIBot.Wrapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -16,7 +16,7 @@ using RestSharp;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
-namespace DiscordBot
+namespace EducationalAIBot
 {
     public class Program
     {

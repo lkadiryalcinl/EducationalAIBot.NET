@@ -1,4 +1,4 @@
-﻿namespace DiscordBot.Models
+﻿namespace EducationalAIBot.Models
 {
     public class FileContentModel
     {

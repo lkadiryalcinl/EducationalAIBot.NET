@@ -1,9 +1,9 @@
-﻿using DiscordBot.Interfaces;
-using DiscordBot.Models;
+﻿using EducationalAIBot.Interfaces;
+using EducationalAIBot.Models;
 using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas.Parser;
 
-namespace DiscordBot.Services
+namespace EducationalAIBot.Services
 {
     public class PdfFileReader : IAnyFileReader
     {
@@ -18,7 +18,7 @@ namespace DiscordBot.Services
                 {
                     var page = pdfDocument.GetPage(i);
                     var pageText = PdfTextExtractor.GetTextFromPage(page);
-                    model.Contents.Add(new FileContentModel { Content = pageText, PageNumber = i});
+                    model.Contents.Add(new FileContentModel { Content = pageText, PageNumber = i });
                 }
             }
 

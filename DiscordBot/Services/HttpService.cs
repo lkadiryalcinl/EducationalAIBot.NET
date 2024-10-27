@@ -1,9 +1,10 @@
 ﻿using System.Net;
-using DiscordBot.Interfaces;
+using EducationalAIBot;
+using EducationalAIBot.Interfaces;
 using Microsoft.Extensions.Logging;
 using RestSharp;
 
-namespace DiscordBot.Services
+namespace EducationalAIBot.Services
 {
     public class HttpService(IRestClient httpClient) : IHttpService
     {

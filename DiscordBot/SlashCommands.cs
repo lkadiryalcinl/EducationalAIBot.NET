@@ -1,8 +1,8 @@
-﻿using DiscordBot.Interfaces;
-using DiscordBot.Wrapper;
-using DSharpPlus.SlashCommands;
+﻿using DSharpPlus.SlashCommands;
+using EducationalAIBot.Interfaces;
+using EducationalAIBot.Wrapper;
 
-namespace DiscordBot
+namespace EducationalAIBot
 {
     public class SlashCommands(ISlashCommandsService slashCommandsService) : ApplicationCommandModule
     {

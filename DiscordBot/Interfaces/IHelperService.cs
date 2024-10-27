@@ -1,4 +1,4 @@
-﻿namespace DiscordBot.Interfaces
+﻿namespace EducationalAIBot.Interfaces
 {
     public interface IHelperService
     {

@@ -2,7 +2,7 @@
 using DSharpPlus.Entities;
 using DSharpPlus.SlashCommands;
 
-namespace DiscordBot.Wrapper
+namespace EducationalAIBot.Wrapper
 {
     public class InteractionContextWrapper(BaseContext context) : IInteractionContextWrapper
     {

@@ -1,15 +1,14 @@
 ﻿using System.Net.NetworkInformation;
 using System.Text;
-using DiscordBot.Interfaces;
-using DiscordBot.Models;
-using DiscordBot.Wrapper;
 using DSharpPlus;
 using DSharpPlus.Entities;
+using EducationalAIBot.Interfaces;
+using EducationalAIBot.Models;
+using EducationalAIBot.Wrapper;
 using Microsoft.Extensions.Configuration;
 using Mscc.GenerativeAI;
-using Newtonsoft.Json;
 
-namespace DiscordBot.Services
+namespace EducationalAIBot.Services
 {
     public class SlashCommandsService : ISlashCommandsService
     {

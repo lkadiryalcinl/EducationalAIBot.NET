@@ -4,10 +4,11 @@
 		<PackageId>DiscordBotAI</PackageId>
 		<OutputType>Exe</OutputType>
 		<TargetFramework>net8.0</TargetFramework>
-		<RootNamespace>DiscordBot</RootNamespace>
+		<RootNamespace>EducationalAIBot</RootNamespace>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 		<UserSecretsId>096c0e02-9bdc-41f2-9b09-d83effc29096</UserSecretsId>
+		<AssemblyName>EducationalAIBot</AssemblyName>
 	</PropertyGroup>
 
 	<ItemGroup>
