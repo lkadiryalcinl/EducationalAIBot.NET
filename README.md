@@ -51,25 +51,26 @@ Bu aşamada, botun sadece sabit bir metin yerine, bir dosya üzerinden öğrenme
 ## 5. Bahar Dönemi
 
 ### 5.1 Aşamanın Hedefi
-Bahar döneminde botun mimarisi mikroservis altyapısına geçirilecek ve farklı teknolojiler ile entegre hale getirilecektir. Bu sayede botun modülerliği artırılacak, her bir fonksiyon bağımsız mikroservisler olarak çalıştırılabilecektir. Ayrıca mesajlaşma altyapısı, kimlik doğrulama, veri yönetimi ve yük dengeleme gibi kritik konular bu aşamada ele alınacaktır.
+Bahar döneminde botun mimarisi **Clean Architecture** altyapısına geçirilecek ve farklı teknolojiler ile entegre hale getirilecektir. Bu sayede botun modülerliği artırılacak, her bir fonksiyon bağımsız katmanlar olarak çalıştırılabilecektir. Ayrıca mesajlaşma altyapısı, kimlik doğrulama, veri yönetimi ve hata yönetimi gibi kritik konular bu aşamada ele alınacaktır.
 
 ### 5.2 Teknolojiler ve Araçlar
-- **MassTransit**: Mikroservisler arası mesajlaşma altyapısı sağlamak için kullanılacak.
-- **IdentityServer4**: Merkezi kimlik doğrulama ve yetkilendirme sağlanarak, her bir mikroservisin güvenliği ve kullanıcı doğrulaması yapılacak.
-- **Redis**: Mikroservisler arasında hızlı veri paylaşımı ve önbellekleme çözümü olarak kullanılacak.
-- **YARP (Yet Another Reverse Proxy)**: Mikroservislerin trafiğini yönlendirmek ve yük dengelemesi sağlamak için kullanılacak.
-- **Docker**: Mikroservislerin containerize edilerek bağımsız ve izole bir şekilde çalıştırılması sağlanacak.
+- **Redis**: Hızlı veri paylaşımı ve önbellekleme çözümü olarak kullanılacak.
+- **Microsoft Identity**: Merkezi kimlik doğrulama ve yetkilendirme sağlanarak, her bir katmanın güvenliği ve kullanıcı doğrulaması yapılacak.
+- **Docker**: Katmanların containerize edilerek bağımsız ve izole bir şekilde çalıştırılması sağlanacak.
+- **Loglama**: Sistemdeki önemli olayların kaydedilmesi ve izlenmesi için kullanılacak.
+- **Exception Middleware**: Hataların merkezi bir şekilde yönetilmesi ve loglanması sağlanacak.
 
 ### 5.3 Gerçekleştirilen Çalışmalar
-1. **Mikroservis mimarisine geçiş**: Proje, farklı fonksiyonlar için mikroservisler olarak yeniden tasarlandı.
-2. **MassTransit ile mesajlaşma**: Mikroservisler arasında güvenilir ve asenkron bir iletişim altyapısı kuruldu.
-3. **IdentityServer4 entegrasyonu**: Kimlik doğrulama ve yetkilendirme süreçleri güvenli bir şekilde yönetildi.
-4. **Redis entegrasyonu**: Veri paylaşımı ve önbellekleme için Redis kullanıldı, performans artırıldı.
-5. **YARP ile reverse proxy**: Servisler arası trafik yönetimi ve yük dengelemesi sağlandı.
-6. **Docker ile containerize yapı**: Her bir mikroservis, Docker container'ları içinde bağımsız çalışacak şekilde yapılandırıldı.
+1. **Clean Architecture geçişi**: Proje, farklı fonksiyonlar için Clean Architecture prensiplerine uygun olarak yeniden tasarlandı.
+2. **Redis entegrasyonu**: Veri paylaşımı ve önbellekleme için Redis kullanıldı, performans artırıldı.
+3. **Microsoft Identity entegrasyonu**: Kimlik doğrulama ve yetkilendirme süreçleri güvenli bir şekilde yönetildi.
+4. **Docker ile containerize yapı**: Her bir katman, Docker container'ları içinde bağımsız çalışacak şekilde yapılandırıldı.
+5. **Loglama altyapısı**: Uygulama olaylarının izlenebilirliğini artırmak için loglama entegrasyonu sağlandı.
+6. **Exception Middleware entegrasyonu**: Hataların merkezi yönetimi ve loglanması sağlanarak hata takibi kolaylaştırıldı.
 
 ---
 
 ## 6. Sonuç
 
-Bu proje, Discord botunun temel işlevlerinden başlayarak, ileri seviye mikroservis mimarisi ve çeşitli teknolojilerle entegre bir yapıya dönüştürülmesini kapsamaktadır. Geliştirilen bot, modüler ve ölçeklenebilir bir yapıya kavuşarak, hem sabit metin hem de dosya içeriklerine dayalı olarak kullanıcı sorularına yanıt verebilmektedir. Gelecek çalışmalarda, botun kapsamı genişletilebilir ve ek özellikler entegre edilerek daha gelişmiş bir sistem haline getirilebilir.
+Bu proje, Discord botunun temel işlevlerinden başlayarak, ileri seviye **Clean Architecture** ve çeşitli teknolojilerle entegre bir yapıya dönüştürülmesini kapsamaktadır. Geliştirilen bot, modüler ve ölçeklenebilir bir yapıya kavuşarak, hem sabit metin hem de dosya içeriklerine dayalı olarak kullanıcı sorularına yanıt verebilmektedir. Gelecek çalışmalarda, botun kapsamı genişletilebilir ve ek özellikler entegre edilerek daha gelişmiş bir sistem haline getirilebilir.
+
