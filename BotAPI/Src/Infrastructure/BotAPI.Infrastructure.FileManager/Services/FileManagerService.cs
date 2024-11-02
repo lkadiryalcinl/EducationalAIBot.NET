@@ -1,43 +1,55 @@
+using BotAPI.Application.DTOs.FileReader.Responses;
 using BotAPI.Application.Interfaces;
 using BotAPI.Infrastructure.FileManager.Contexts;
-using BotAPI.Infrastructure.FileManager.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Pinecone;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BotAPI.Infrastructure.FileManager.Services
 {
-    public class FileManagerService(FileManagerDbContext fileManagerDbContext) : IFileManagerService
+    public class FileManagerService : IFileManagerService
     {
-        public async Task Create(string name, byte[] content)
+        private readonly string _pineconeApiKey;
+        private readonly string _pineconeIndex;
+        private readonly string _pineconeUrl;
+        private readonly PineconeClient _pineconeClient;
+
+        public FileManagerService(IConfiguration configuration)
         {
-            await fileManagerDbContext.Files.AddAsync(new FileEntity(name, content));
+            _pineconeApiKey = configuration["Pinecone:ApiKey"];
+            _pineconeIndex = configuration["Pinecone:Index"];
+            _pineconeClient = new PineconeClient(_pineconeApiKey);
         }
 
-        public async Task Delete(string name)
+        public async Task CreateVector(string ChannelId, FileOutputModel fileOutput)
         {
-            var file = await fileManagerDbContext.Files.FirstOrDefaultAsync(p => p.Name == name);
-            fileManagerDbContext.Files.Remove(file);
-        }
+            var pinecone = _pineconeClient.Index(_pineconeIndex);
 
-        public async Task<byte[]> Download(string name)
-        {
-            var file = await fileManagerDbContext.Files.FirstOrDefaultAsync(p => p.Name == name);
-            return file?.Content;
-        }
-
-        public async Task Update(string name, byte[] content)
-        {
-            var file = await fileManagerDbContext.Files.FirstOrDefaultAsync(p => p.Name == name);
-            if (file is null)
+            var vectors = new List<Vector>();
+            for (var i = 0; i < fileOutput.Contents.Count; i++)
             {
-                await Create(name, content);
+                var element = fileOutput.Contents.ElementAtOrDefault(i);
+
+                vectors.Add(
+                    new Vector
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Values = new(),
+                        Metadata = new Metadata
+                        {
+                            ["PageNumber"] = element.PageNumber,
+                            ["Content"] = element.Content
+                        },
+                    }
+                );
             }
-            else
-            {
-                file.UpdateContent(content);
-            }
+
+
+            await pinecone.UpsertAsync(new UpsertRequest { Vectors = vectors, Namespace = ChannelId});
         }
-        public async Task<int> SaveChangesAsync() =>
-            await fileManagerDbContext.SaveChangesAsync();
     }
 }
