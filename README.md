@@ -12,7 +12,7 @@ Discord botunun temel amacı, kullanıcılardan gelen soruları belirli bir meti
 
 - **Güz Dönemi Vize**: Botun temel işlevlerinin geliştirilmesi.
 - **Güz Dönemi Final**: Pinecone entegrasyonu ve sabit metin ile botun eğitilmesi.
-- **Bahar Dönemi**: Mikroservis mimarisi ve çeşitli teknolojilerle entegrasyon.
+- **Bahar Dönemi**: Çeşitli teknolojilerle entegrasyon.
 
 ## 3. Güz Dönemi Vize
 
